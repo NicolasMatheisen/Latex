@@ -1,0 +1,128 @@
+\documentclass[11pt,a4paper]{book}
+
+% --- Encoding & Schrift ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype} % Bessere Typografie und Randausgleich
+
+% --- Seitenlayout ---
+\usepackage[margin=2.5cm]{geometry}
+
+% --- Mathepakete ---
+\usepackage{amsmath,amssymb,amsthm}
+
+% --- Sprache ---
+\usepackage[ngerman]{babel}
+
+% --- Links im PDF ---
+\usepackage{hyperref}
+
+\usepackage{csquotes}
+\usepackage[backend=biber, style=numeric]{biblatex}
+\addbibresource{literatur.bib}
+
+
+% --- Umgebungen für Aufgaben & Lösungen ---
+\newcounter{aufgabe}[chapter]
+\renewcommand{\theaufgabe}{\thechapter.\arabic{aufgabe}}
+
+\newenvironment{aufgabe}[1][]{%
+  \refstepcounter{aufgabe}%
+  \par\noindent\textbf{Aufgabe \theaufgabe}%
+  \ifx#1\empty\else\textbf{ (#1)}\fi%
+  \par\medskip
+}{\medskip}
+
+\newenvironment{loesung}{%
+  \par\noindent\textbf{Lösung zu Aufgabe \theaufgabe}\par\medskip
+}{\medskip}
+
+\begin{document}
+
+\title{Lösungsbuch zu \\ \textit{Analysis 1} \\ von Otto Forster und Florian Lindemann}
+\author{Nicolas Matheisen}
+\date{\today}
+\maketitle
+
+\tableofcontents
+\setcounter{tocdepth}{0}
+
+\chapter{Vollständige Induktion}
+
+\begin{aufgabe}[{\cite[Seite~20, Aufgabe~1.1]{Forster2023}}]
+Man beweise die Summenformel für alle $n \in \mathbb{N}$:
+\[
+  \sum_{k=1}^{n} k^2 = \frac{n(n+1)(2n+1)}{6}.
+\]
+\end{aufgabe}
+
+\begin{loesung}
+Induktions-Anfang: $n=1$
+
+\[
+  \sum_{k=1}^{1} k^2 = 1^2 = 1 \cdot 1 = 1
+\]
+
+\[
+  \frac{1(1+1)(2\cdot1+1)}{6} = \frac{1\cdot2\cdot3}{6} = \frac{6}{6} = 1
+\]
+
+Induktions-Voraussetzung:
+
+\[
+  \exists n \in \mathbb{N}: \sum_{k=1}^{n} k^2 = \frac{n(n+1)(2n+1)}{6}
+\]
+
+Induktions-Schritt: $n \to n+1$
+
+zu zeigen:
+
+\begin{align*}
+    \sum_{k=1}^{n+1} k^2 
+    &= \frac{(n+1)(n+1+1)(2\cdot(n+1)+1)}{6} \\
+    &= \frac{(n+1)(n+2)(2n+3)}{6}
+\end{align*}
+
+\begin{align*}
+    \sum_{k=1}^{n+1} k^2 
+    &= \left(\sum_{k=1}^{n} k^2\right) + (n+1)^2 \\
+    &\stackrel{\text{IV}}{=} \frac{n(n+1)(2n+1)}{6} + (n+1)^2 \\
+    &= \frac{n(n+1)(2n+1)}{6} + \frac{(n+1)^2}{1} \\
+    &= \frac{n(n+1)(2n+1)}{6} + \frac{6(n+1)^2}{6} \\
+    &= \frac{n(n+1)(2n+1)+6(n+1)^2}{6} \\
+    &= \frac{(n+1) \cdot [n(2n+1) + 6(n+1)]}{6} \\
+    &= \frac{(n+1) \cdot [2n^2+1n+6n+6]}{6} \\
+    &= \frac{(n+1) \cdot [2n^2+7n+6]}{6}
+\end{align*}
+
+$2n^2+7n+6$ in die Grundform bringen.
+
+\[
+2n^2+7n+6 = 2\left(n^2+\frac{7n}{2}+3\right)
+\]
+
+\begin{align*}
+    p &= \frac{7}{2}, \quad q = 3 \\
+    x_{1,2} &= -\frac{p}{2} \pm \sqrt{ \left(\frac{p}{2}\right)^2 - q } \\
+    x_{1,2} &= -\frac{7}{4} \pm \sqrt{ \left(\frac{7}{4}\right)^2 - 3 } \\
+    x_{1,2} &= -\frac{7}{4} \pm \sqrt{ \frac{49}{16} - \frac{48}{16} } \\
+    x_{1,2} &= -\frac{7}{4} \pm \frac{1}{4} \\
+    x_1 &= -\frac{6}{4} = \frac{3}{2} = -1,5 \\
+    x_2 &= -2
+\end{align*}
+
+\begin{align*}
+  2n^2 + 7n + 6 &= 2 \cdot (n - x_1) \cdot (n - x_2) \\
+  &= 2 \cdot (n + \frac{3}{2})(n + 2) \\
+  &= (2n + 3)(n + 2)
+\end{align*}
+
+\[
+  \frac{(n+1) \cdot [2n^2+7n+6]}{6} = \frac{(n+1)(n+2)(2n+3)}{6}
+\]
+
+\end{loesung}
+
+\printbibliography
+\end{document}
